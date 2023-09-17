@@ -1,0 +1,72 @@
+####  signup user
+POST http://localhost:3000/signup-user
+Content-Type: application/json
+
+{
+    "name":"son61312111",
+    "email":"nada6s@gma2111311",
+    "password":"12346441231111"
+   
+}
+
+####sign up admin
+POST http://localhost:3000/signup-admin
+Content-Type: application/json
+
+{
+    "name":"son6132222121111",
+    "email":"nada6s@g2m222a11311211",
+    "password":"1234644212221131121",
+    "role":"admin"
+   
+}
+### signup manager
+POST http://localhost:3000/signup-manager
+Content-Type: application/json
+
+{
+       "name":"son61312111",
+    "email":"nada6s@gma2111311",
+    "password":"12346441231111"
+    
+}
+###
+# login user
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+     "name":"son61312111",
+    "email":"nada6s@gma2111311",
+    "password":"12346441231111",
+    "role":"manager"
+}
+
+
+###login admin
+POST http://localhost:3000/login-admin
+Content-Type: application/json
+
+{
+  "name":"son61312111",
+    "email":"nada6s@gma2111311",
+    "password":"12346441231111"
+}
+###login manager
+
+POST http://localhost:3000/login-manager
+Content-Type: application/json
+
+{
+     "name":"son61312111",
+    "email":"nada6s@gma2111311",
+    "password":"12346441231111"
+}
+###auth
+post http://localhost:3000
+Content-Type: application/json
+
+
+{
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoibW9kZWwiLCJpYXQiOjE2OTQ4Njk2NTIsImV4cCI6MTcyNjQwNTY1Mn0.vUtsFo7KzeTP0F4PPloNqrvpKW2bZSPJnC1LpAC1GZ8"
+}
