@@ -1,33 +1,31 @@
-const passport = require("passport")
-const User = require("../model/user");
-const register = require("./user.js")
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
+const jwt = require("jsonwebtoken");
+const checkAuth = async (req, res, next) => {
+    try {
+        if (!req.headers.authorization) {
+            return null
+        } const token = await (jwt.verify(req.headers.authorization.split(" ")[1]) || req.headers.authorization)
+        if (!token) { return null }
+        return token
+    } catch (err) { next(err) }
+}
+module.export = checkAuth
+const check =
+    (...roles) =>
+        (req, res, next) => {
+            if (!req.user) {
+                return res.status(401).send('Unauthorized');
+            }
 
-const userAuth = passport.authenticate("jwt", {
-    session: true
-});
-module.exports = userAuth
-const opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET
-};
+            const hasRole = roles.find(role => req.user.role === role);
+            if (!hasRole) {
+                return res.status(403).send('You are not allowed to make this request.');
+            }
 
-module.exports = passport => {
-    passport.use(
-        new JwtStrategy(opts, async (payload, done) => {
-            await User.findById(payload.user_id)
-                .then(user => {
-                    if (user) {
-                        return done(null, user);
-                    }
-                    return done(null, false);
-                })
-                .catch(err => {
-                    return done(null, false);
-                });
-        })
-    );
-};
+            return next();
+        };
+
+const role = { check }
+module.exports = role;
+
 
 

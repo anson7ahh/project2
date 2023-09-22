@@ -1,13 +1,6 @@
 
-const checkRole = (role) => {
-    return (req, res, next) => {
+const passport = require('passport');
 
-        if (!role.includes(req.user.role)) {
-            return res.status(401).json(`u don't have a permission`)
-        }
-        next()
-    }
+const auth = passport.authenticate('jwt', { session: false });
 
-}
-
-module.exports = { checkRole } 
+module.exports = auth;

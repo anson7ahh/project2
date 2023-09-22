@@ -5,24 +5,16 @@ const bodyParser = require('body-parser')
 require('dotenv').config()
 const router = require("./router/user.js")
 const Authrouter = require("./router/auth.js")
-const session = require('express-session')
-const store = session.MemoryStore();
+require('./config/passport')(app)
+
+const cors = require('cors');
 const passport = require('passport')
-app.set('trust proxy', 1) // trust first proxy
-app.use(session({
-    secret: process.env.keysession,
-    resave: false,
-    saveUninitialized: true,
-    cookie: {
-        secure: false,
-        httpOnly: true,
-        Maxage: 5 * 6 * 1000
-    },
-    store
-}))
-app.use(passport.initialize())
-app.use(passport.session())
+app.use(cors());
 app.use(express.json())
+
+
+
+
 app.use("/", router);
 app.use("/", Authrouter)
 

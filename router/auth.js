@@ -1,10 +1,10 @@
 const router = require("express").Router()
-const { passport, checkRole } = require("../controller/middle.js")
-const ROLE = require("../model/role.js")
-const userAuth = require("../controller/auth.js")
-router.get("/profile", userAuth, checkRole([ROLE.user]), async (req, res) => {
-    res.status(200).json({ type: ROLE.user, user: serializeUser(req.user) });
-});
+const passport = require("passport")
+const { ROLE } = require("../model/role.js")
+const role = require("../controller/auth.js")
+const auth = require("../controller/middle.js")
 
+
+router.get('/search', auth, role.check(ROLE.user), (req, res) => { res.json('hello') })
 
 module.exports = router
