@@ -1,6 +1,6 @@
 ###auth
 
-get http://localhost:3000/search
+GET http://localhost:3000/search
 Content-Type: application/json
 
 
