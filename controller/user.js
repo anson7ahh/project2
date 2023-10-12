@@ -52,7 +52,7 @@ const loginUser = async (req, res, next) => {
         return res.status(200).json({
             token: `Bearer ${accessToken}`,
             user: {
-                id: account.id,
+                _id: account.id,
                 name: account.name,
                 email: account.email,
                 role: account.role

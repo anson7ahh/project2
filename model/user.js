@@ -2,9 +2,6 @@ const { mongoose, model } = require("mongoose")
 const Schema = mongoose.Schema
 const { ROLE } = require("./role.js");
 
-
-mongoose.connect('mongodb://127.0.0.1:27017/test')
-    .then(() => console.log('Connected!'));
 const UserSchema = new Schema(
     {
         name: {
@@ -18,7 +15,7 @@ const UserSchema = new Schema(
         },
         role: {
             type: String,
-            default: "user",
+            default: ROLE.user,
             enum: [ROLE.user, ROLE.admin, ROLE.manager],
         },
 
