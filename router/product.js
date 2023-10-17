@@ -16,7 +16,8 @@ router.post(
                 name,
                 description,
                 quantity,
-                price } = req.body
+                price,
+            } = req.body
 
             if (!sku) {
                 return res.status(400).json({ error: 'You must enter sku.' });
@@ -49,6 +50,7 @@ router.post(
                 description,
                 quantity,
                 price,
+
             });
 
             const savedProduct = await newproduct.save();
@@ -66,4 +68,26 @@ router.post(
         }
     }
 );
+router.delete(
+    '/delete/:id',
+    auth,
+    role.check(ROLE.admin),
+    async (req, res) => {
+        try {
+
+            const Product = await product.deleteOne({ _id: req.params.id });
+
+            res.status(200).json({
+                success: true,
+                message: `Product has been deleted successfully!`,
+                Product
+            });
+        } catch (error) {
+            res.status(400).json({
+                error: 'Your request could not be processed. Please try again.'
+            });
+        }
+    }
+);
+
 module.exports = router

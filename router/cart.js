@@ -24,6 +24,18 @@ router.post('/cart', auth, async (req, res, next) => {
 
     }
 });
+router.delete('/delete/:cartId', auth, async (req, res) => {
+    try {
+        await Cart.deleteOne({ _id: req.params.cartId });
 
+        res.status(200).json({
+            success: true
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: 'Your request could not be processed. Please try again.'
+        });
+    }
+});
 
 module.exports = router
