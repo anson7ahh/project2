@@ -10,10 +10,11 @@ opts.secretOrKey = process.env.privateKey;
 passport.use(
     new JwtStrategy(opts, (payload, done) => {
 
-        user.findOne({ id: payload.id })
-            .then(data => {
-                if (data) {
-                    return done(null, data);
+        user.findById(payload.id)
+            .then(user => {
+                if (user) {
+
+                    return done(null, user);
                 }
 
                 return done(null, false);

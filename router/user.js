@@ -2,11 +2,13 @@ const router = require("express").Router();
 const user = require("../model/user");
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
-
+const auth = require("../controller/middle.js")
+const role = require("../controller/auth.js")
+const { ROLE } = require("../model/role.js")
 router.post("/signup", async (req, res, next) => {
     try {
         const { name, password, email } = req.body;
-        console.log(req.body.name)
+
         const check = await user.findOne({ email: email })
         if (!check) {
             const newuser = await user.create({
@@ -41,11 +43,11 @@ router.post("/signin", async (req, res, next) => {
             return res.json("password wrong")
         }
         const payload = {
-            id: user.id
+            id: account.id
         };
-        const accessToken = await jwt.sign({
+        const accessToken = await jwt.sign(
             payload
-        }, process.env.privateKey,
+            , process.env.privateKey,
             { expiresIn: "365d" })
         if (!accessToken) { throw new Error(); }
 
@@ -56,7 +58,8 @@ router.post("/signin", async (req, res, next) => {
                 name: account.name,
                 email: account.email,
                 role: account.role
-            }
+            },
+
         });
 
 
@@ -65,4 +68,65 @@ router.post("/signin", async (req, res, next) => {
     }
 }
 )
+router.put("/update", auth, async (req, res, next) => {
+    try {
+
+        const { _id } = req.user
+        if (!_id) throw new Error('Missing inputs')
+        const response = await user.findByIdAndUpdate(_id, req.body, { new: true })
+            .select('-password -role ')
+        return res.status(200).json({
+            success: response ? true : false,
+            updatedUser: response ? response : 'Some thing went wrong'
+        })
+
+    }
+    catch (error) {
+        next(error)
+    }
+})
+router.put("/update_by_admin/:_id", auth, role.check(ROLE.admin), async (req, res, next) => {
+    try {
+        const { _id } = req.params
+        const response = await user.findByIdAndUpdate(_id, req.body, { new: true })
+        if (!_id) throw new Error('Missing inputs')
+        return res.status(200).json({
+            success: `thanh cong`,
+            response
+        })
+    } catch (error) {
+        next(error)
+    }
+})
+router.delete("/delete", auth, async (req, res, next) => {
+    try {
+
+        const { _id } = req.user
+        if (!_id) throw new Error('Missing inputs')
+        const response = await user.findOneAndDelete({ _id: _id })
+
+        return res.status(200).json({
+            success: `thanh cong`,
+            response
+        })
+
+    }
+    catch (error) {
+        next(error)
+    }
+})
+
+router.delete("/delete_by_admin/:_id", auth, role.check(ROLE.admin), async (req, res, next) => {
+    try {
+        const { _id } = req.params
+        const response = await user.findOneAndDelete({ _id: _id })
+        if (!_id) throw new Error('Missing inputs')
+        return res.status(200).json({
+            success: `thanh cong`,
+            response
+        })
+    } catch (error) {
+        next(error)
+    }
+})
 module.exports = router

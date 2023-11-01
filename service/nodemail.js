@@ -6,7 +6,7 @@ const sendMail = async ({ email, html }) => {
         host: "smtp.gmail.com",
         port: 587,
         secure: false, // true for 465, false for other ports
-        auth: {
+        Auth: {
             user: process.env.EMAIL_USERNAME, // generated ethereal user
             pass: process.env.EMAIL_PASSWORD, // generated ethereal password
         },
@@ -22,6 +22,7 @@ const sendMail = async ({ email, html }) => {
 
     return info
 }
+
 
 module.exports = sendMail
 

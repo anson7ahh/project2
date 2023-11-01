@@ -14,6 +14,7 @@ router.post("/order", auth, role.check(ROLE.admin), async (req, res, next) => {
             cart, total, user
         });
         const orderDoc = await order.save();
+
         const html = `đơn hàng mới ${orderDoc}`
         const data = {
             html,

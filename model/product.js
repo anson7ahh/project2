@@ -1,5 +1,5 @@
 const { mongoose, model } = require("mongoose");
-
+const { Schema } = mongoose
 const productSchema = mongoose.Schema({
     sku: {
         type: String
@@ -25,5 +25,5 @@ const productSchema = mongoose.Schema({
 });
 
 const Product = model("product", productSchema);
-
 module.exports = Product;
+

@@ -5,9 +5,9 @@ const role = require("../controller/auth.js")
 const auth = require("../controller/middle.js")
 
 
-router.get('/search', auth, role.check(ROLE.admin), (req, res, next) => {
+router.get('/', auth, (req, res) => {
     console.log("hello")
-    return res.status(200).json({ done: true })
 })
+
 
 module.exports = router
